@@ -13,7 +13,7 @@ abstract class Down extends TelegramLongPollingBot {
         Translate.setClientSecret("");*/
         TelegramBotsApi telegramBotsApi = new TelegramBotsApi();
         try {
-            telegramBotsApi.registerBot(new Face());
+            telegramBotsApi.registerBot(new Head());
         } catch (TelegramApiException e) {
             e.printStackTrace();
         }
@@ -21,7 +21,7 @@ abstract class Down extends TelegramLongPollingBot {
 
 
     public String getBotToken() {
-        return "339559300:AAFhMCNOEd6lGPAGDIJfcyKR9jSYRmrbaEE";
+        return "";
     }
 
 

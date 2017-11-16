@@ -13,19 +13,7 @@ import java.util.regex.Pattern;
 
 abstract class Body extends Down {
 
-    private static final String HIRAGANA;
-    private static final String KATAKANA;
-    private static List<Pattern> patterns;
-
-    static {
-        HIRAGANA = ".*\\p{InHIRAGANA}.*";
-        KATAKANA = "[ぁ-んァ-ン]";
-
-        Pattern hira = Pattern.compile(HIRAGANA);
-        Pattern kata = Pattern.compile(KATAKANA);
-
-        patterns = Arrays.asList(hira, kata);
-    }
+    protected static final String KANA = "(.*[ぁ-んァ-ン].*)";
 
     protected String translate(String text) {
         /*String translatedText = null;
@@ -37,26 +25,15 @@ abstract class Body extends Down {
         return text;
     }
 
-
     protected void sendMessage(String text, Update update) {
-        SendMessage message = new SendMessage();
-        message.setChatId(update.getMessage().getChatId());
-        message.setText(text);
+        SendMessage message = new SendMessage()
+        .setChatId(update.getMessage().getChatId())
+        .setText(text);
         try {
             sendMessage(message);
         } catch (TelegramApiException e) {
             e.printStackTrace();
         }
-    }
-
-
-    protected boolean isJapanese(String text) {
-        int i = 0;
-        for (Pattern p : patterns) {
-            Matcher matcher = p.matcher(text);
-            if (matcher.matches()) i++;
-        }
-        return i > 0;
     }
 
 }
