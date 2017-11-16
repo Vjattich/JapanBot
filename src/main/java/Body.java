@@ -5,6 +5,7 @@ import org.telegram.telegrambots.exceptions.TelegramApiException;
 
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -14,17 +15,16 @@ abstract class Body extends Down {
 
     private static final String HIRAGANA;
     private static final String KATAKANA;
-    private static List<Pattern> patterns = new ArrayList<>();
+    private static List<Pattern> patterns;
 
     static {
         HIRAGANA = ".*\\p{InHIRAGANA}.*";
-        KATAKANA = ".*\\p{InKATAKANA}.*";
+        KATAKANA = "[ぁ-んァ-ン]";
 
         Pattern hira = Pattern.compile(HIRAGANA);
         Pattern kata = Pattern.compile(KATAKANA);
 
-        patterns.add(hira);
-        patterns.add(kata);
+        patterns = Arrays.asList(hira, kata);
     }
 
     protected String translate(String text) {
@@ -51,11 +51,12 @@ abstract class Body extends Down {
 
 
     protected boolean isJapanese(String text) {
-        for (Pattern p: patterns) {
+        int i = 0;
+        for (Pattern p : patterns) {
             Matcher matcher = p.matcher(text);
-            return matcher.matches();
+            if (matcher.matches()) i++;
         }
-        return false;
+        return i > 0;
     }
 
 }
